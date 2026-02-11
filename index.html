@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Miniesse Drift Coffee</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap');
+
+html{scroll-behavior:smooth;}
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#2b1b12;
+color:#f5e6d3;
+}
+
+/* NAVBAR */
+.navbar{
+position:fixed;
+top:0;width:100%;
+background:rgba(30,20,10,0.96);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 60px;
+z-index:1000;
+backdrop-filter:blur(6px);
+}
+.navbar h2{
+font-family:'Playfair Display',serif;
+letter-spacing:2px;
+}
+.navbar a{
+color:#f5e6d3;
+margin-left:25px;
+font-weight:600;
+text-decoration:none;
+cursor:pointer;
+}
+.navbar a:hover{color:#c9a26a;}
+
+/* HERO */
+.hero{
+height:100vh;
+background:url("https://images.unsplash.com/photo-1509042239860-f550ce710b93") center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+}
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(50,30,15,0.7);
+}
+.hero-content{
+position:relative;
+background:rgba(20,15,10,0.85);
+padding:90px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+.hero-content h1{
+font-family:'Playfair Display',serif;
+font-size:50px;
+margin-bottom:10px;
+}
+.hero-content p{letter-spacing:1px;}
+.hero-content .btn{
+display:inline-block;
+margin-top:20px;
+padding:14px 28px;
+background:#c9a26a;
+color:#fff;
+border-radius:10px;
+font-weight:bold;
+text-decoration:none;
+cursor:pointer;
+}
+
+/* SECTIONS */
+.section{
+padding:160px 20px 120px;
+display:none;
+text-align:center;
+}
+.section.light{
+background:#f4ede4;
+color:#2b1b12;
+}
+.section.dark{
+background:#3a2314;
+}
+
+/* MENU */
+.category-tabs button{
+background:#c9a26a;
+border:none;
+padding:12px 20px;
+margin:5px;
+border-radius:25px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+.category-tabs button:hover{
+background:#e0b98b;
+transform:translateY(-2px);
+}
+
+.menu-grid{
+display:none;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:25px;
+margin-top:30px;
+}
+.menu-grid.active{display:grid;}
+
+.menu-item{
+background:rgba(45,30,20,0.95);
+padding:18px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+transition:0.3s;
+}
+.menu-item:hover{transform:translateY(-6px);}
+.menu-item img{
+width:100%;
+height:230px;
+object-fit:cover;
+border-radius:14px;
+}
+.menu-item h4{
+margin:10px 0 5px;
+font-family:'Playfair Display',serif;
+}
+.menu-item p{font-size:14px;color:#e6d9c5;}
+
+.order-controls{
+margin-top:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+.order-controls select,
+.order-controls input{
+padding:7px;
+border-radius:8px;
+border:none;
+}
+.order-controls button{
+grid-column:span 2;
+padding:10px;
+background:#c9a26a;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* CART */
+#cart{
+max-width:900px;
+margin:40px auto;
+background:#fff;
+color:#2b1b12;
+padding:25px;
+border-radius:18px;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
+text-align:left;
+}
+#cart h3{
+text-align:center;
+font-family:'Playfair Display',serif;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:6px 0;
+}
+.cart-item button{
+background:#c9302c;
+color:#fff;
+border:none;
+border-radius:6px;
+padding:4px 8px;
+cursor:pointer;
+}
+
+/* FOOTER */
+.footer{
+background:#2b1b12;
+padding:20px;
+text-align:center;
+color:#ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<h2>MINIESSE DRIFT COFFEE</h2>
+<div>
+<a onclick="showSection('home')">HOME</a>
+<a onclick="showSection('menu')">MENU</a>
+<a onclick="showSection('contact')">LOCATION</a>
+</div>
+</div>
+
+<div class="hero section" id="home">
+<div class="hero-content">
+<h1>MINIESSE DRIFT COFFEE</h1>
+<p>Warm Coffee • Cozy Moments • Rustic Comfort</p>
+<a class="btn" onclick="showSection('menu')">VIEW MENU</a>
+</div>
+</div>
+
+<div class="section dark" id="menu">
+<h2>Our Menu</h2>
+
+<div class="category-tabs">
+<button onclick="showMenu('best-seller')">Best Seller</button>
+<button onclick="showMenu('coffee')">Coffee</button>
+<button onclick="showMenu('pastry')">Pastry</button>
+<button onclick="showMenu('cake')">Cake</button>
+<button onclick="showMenu('frappe')">Frappe</button>
+</div>
+
+<div id="best-seller" class="menu-grid"></div>
+<div id="coffee" class="menu-grid"></div>
+<div id="pastry" class="menu-grid"></div>
+<div id="cake" class="menu-grid"></div>
+<div id="frappe" class="menu-grid"></div>
+
+<div id="cart">
+<h3>Place Your Order</h3>
+<label>Mode of Payment:</label>
+<select id="paymentMode">
+<option>Cash</option>
+<option>GCash</option>
+<option>Card</option>
+</select>
+<div id="paymentInput"></div>
+<div id="cart-items"></div>
+</div>
+</div>
+
+<div class="section light" id="contact">
+<h2>Location & Contact</h2>
+<p>📍 Imus, Cavite</p>
+<p>🕘 9:00 AM – 9:00 PM</p>
+<p>📞 0912 345 6789</p>
+</div>
+
+<div class="footer">© 2026 MINIESSE DRIFT COFFEE</div>
+
+<script>
+let cart=[];
+
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+document.getElementById(id).style.display='block';
+}
+function showMenu(cat){
+document.querySelectorAll('.menu-grid').forEach(m=>m.classList.remove('active'));
+document.getElementById(cat).classList.add('active');
+}
+
+// Menu Data with Descriptions
+const menuData=[
+{name:"Mocha Frappe",price:160,img:"white.jpeg",category:"best-seller",description:"Rich chocolate and refreshing drink."},
+{name:"Spanish Latte",price:150,img:"spanish.jpeg",category:"best-seller",description:"Sweet Spanish-style latte."},
+{name:"Dolce Latte",price:155,img:"dolce.jpeg",category:"best-seller",description:"Smooth latte with caramel hint."},
+{name:"Matcha Frappe",price:160,img:"french.jpeg",category:"best-seller",description:"Creamy matcha blended refreshingly."},
+{name:"Caramel Latte",price:165,img:"caramel.jpeg",category:"best-seller",description:"Sweet caramel flavored latte."},
+
+{name:"Espresso",price:120,img:"espressoo.jpeg",category:"coffee",description:"Strong, bold espresso shot."},
+{name:"Americano",price:130,img:"amee.jpeg",category:"coffee",description:"Espresso diluted with hot water."},
+{name:"Cappuccino",price:150,img:"capp.jpeg",category:"coffee",description:"Classic cappuccino with milk foam."},
+{name:"Latte",price:160,img:"latteee.jpeg",category:"coffee",description:"Smooth latte with milk."},
+{name:"Macchiato",price:140,img:"macc.jpeg",category:"coffee",description:"Espresso topped with milk foam."},
+
+{name:"Croissant",price:90,img:"cross.jpeg",category:"pastry",description:"Flaky buttery pastry."},
+{name:"Chocolate Danish",price:95,img:"choco.danish.jpg",category:"pastry",description:"Flaky pastry with melted chocolate."},
+{name:"Cheese Bread",price:85,img:"chisoo.png",category:"pastry",description:"Soft bread with creamy cheese filling."},
+{name:"Cinnamon Roll",price:80,img:"mkmk.jpeg",category:"pastry",description:"Sweet cinnamon roll with sugar glaze."},
+
+{name:"Tiramisu",price:170,img:"tiramisuu.jpeg",category:"cake",description:"Coffee-flavored Italian dessert."},
+{name:"Cheesecake",price:160,img:"cheese.jpeg",category:"cake",description:"Creamy cheesecake slice."},
+{name:"Cream Puff",price:150,img:"creampufff.jpeg",category:"cake",description:"Delicate pastry with cream."},
+{name:"Choco Butternut",price:180,img:"choco.jpeg",category:"cake",description:"Chocolate layered cake."},
+
+{name:"Mango Frappe",price:130,img:"mngo.jpeg",category:"frappe",description:"Tropical mango blended with ice and cream."},
+{name:"Oreo Frappe",price:140,img:"oreo.jpeg",category:"frappe",description:"Crushed Oreo cookies in creamy blend."},
+{name:"Salted Caramel Frappe",price:150,img:"salted.jpeg",category:"frappe",description:"Caramel with hint of salt, blended icy."},
+{name:"Strawberry Frappe",price:135,img:"strawberry.jpeg",category:"frappe",description:"Fresh strawberries blended with milk and ice."}
+];
+
+// Render Menu with Hot/Cold only for coffee
+function renderItems(){
+menuData.forEach(item=>{
+let extra='';
+// Add size dropdown for drinks
+if(item.category!=='pastry' && item.category!=='cake'){
+extra=`<select>
+<option>Small</option>
+<option>Medium</option>
+<option>Large</option>
+</select>`;
+// Add hot/cold only for coffee (not frappe)
+if(item.category==='coffee'){
+extra += `<select style="margin-left:5px;">
+<option>Hot</option>
+<option>Cold</option>
+</select>`;
+}
+}
+const div=document.createElement('div');
+div.className='menu-item';
+div.innerHTML=`
+<img src="${item.img}">
+<h4>${item.name}</h4>
+<p>${item.description}</p>
+<p>₱${item.price}</p>
+<div class="order-controls">
+<input type="number" min="1" value="1">
+${extra}
+<button onclick="addToCart('${item.name}',${item.price},this)">Add</button>
+</div>`;
+document.getElementById(item.category).appendChild(div);
+});
+}
+
+// Cart Functions
+function addToCart(name,price,btn){
+const box=btn.parentElement;
+const qty=parseInt(box.querySelector('input').value);
+const selects = box.querySelectorAll('select');
+const size = selects[0]?.value || '-';
+const temp = selects[1]?.value || ''; // empty if no hot/cold
+const finalSize = temp ? size + ' / ' + temp : size;
+cart.push({name,qty,price,size:finalSize,subtotal:qty*price});
+renderCart();
+}
+
+function renderCart(){
+let html='',total=0;
+cart.forEach((i,idx)=>{
+total+=i.subtotal;
+html+=`
+<div class="cart-item">
+<span>${i.name} (${i.size}) x${i.qty}</span>
+<span>₱${i.subtotal}</span>
+<button onclick="removeItem(${idx})">✕</button>
+</div>`;
+});
+if(cart.length>0){
+html+=`<hr><strong>Total: ₱${total}</strong>
+<button onclick="checkout()" style="width:100%;margin-top:12px;">CHECKOUT</button>`;
+}
+document.getElementById('cart-items').innerHTML=html;
+}
+
+function removeItem(i){cart.splice(i,1);renderCart();}
+
+function checkout(){
+let rows='',total=0;
+cart.forEach(i=>{
+total+=i.subtotal;
+rows+=`<tr><td>${i.name}</td><td>${i.size}</td><td>${i.qty}</td><td>₱${i.subtotal}</td></tr>`;
+});
+const w=window.open('','Receipt','width=650,height=700');
+w.document.write(`
+<html>
+<head>
+<style>
+body{font-family:Poppins;background:#fdf6f0;padding:30px;}
+h2{text-align:center;font-family:Playfair Display;}
+table{width:100%;border-collapse:collapse;margin-top:20px;}
+th,td{border:1px solid #a67c52;padding:10px;text-align:center;}
+th{background:#a67c52;color:#fff;}
+</style>
+</head>
+<body>
+<h2>MINIESSE DRIFT COFFEE</h2>
+<p style="text-align:center;">Imus, Cavite</p>
+<table>
+<tr><th>Item</th><th>Size</th><th>Qty</th><th>Subtotal</th></tr>
+${rows}
+<tr><th colspan="3">TOTAL</th><th>₱${total}</th></tr>
+</table>
+<p style="text-align:center;margin-top:20px;">Thank you for your purchase 🤎</p>
+</body>
+</html>
+`);
+cart=[];renderCart();
+}
+
+document.getElementById('paymentMode').addEventListener('change', function(){
+const method=this.value;
+const container=document.getElementById('paymentInput');
+container.innerHTML='';
+if(method==='Card'){
+container.innerHTML=`<label>Enter Card Code:</label><input type="text" id="cardCode" placeholder="Card Code" style="margin-left:10px;">`;
+}else if(method==='GCash'){
+container.innerHTML=`<label>Enter GCash Number:</label><input type="text" id="gcashNumber" placeholder="GCash Number" style="margin-left:10px;">`;
+}
+});
+
+window.onload=()=>{
+showSection('home');
+showMenu('best-seller');
+renderItems();
+};
+</script>
+</body>
+</html>
